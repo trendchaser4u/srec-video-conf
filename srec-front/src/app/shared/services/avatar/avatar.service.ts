@@ -8,7 +8,7 @@ import { ILogger } from '../../types/logger-type';
 	providedIn: 'root'
 })
 export class AvatarService {
-	private openviduAvatar = 'assets/images/openvidu_globe.png';
+	private openviduAvatar = 'assets/images/srec_icon.png';
 	private capturedAvatar = '';
 	private log: ILogger;
 

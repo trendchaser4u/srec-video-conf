@@ -95,7 +95,8 @@
 } */
 
 #header_img {
-  max-width: 150px;
+  max-width: 100%;
+  height: 100%;
 }
 
 #sessionInfo {
@@ -156,7 +157,7 @@
 
 #avatarContainer,
 #avatarImg {
-  border-radius: 25%;
+  /* border-radius: 25%; */
 }
 
 #optionsContent {
