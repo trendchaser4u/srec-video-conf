@@ -14,13 +14,14 @@ if [[ -z "$1" ]] || [[ -z "$2" ]] || [[ -z "$3" ]]; then
     exit 1
 fi
 
+RELEASE_VERSION=$1
 BRANCH_NAME=$2
 ENVIRONMENT=$3
 CALL_BASE_HREF=/
 
 printf '\n'
 printf '\n     -------------------------------------------------------------'
-printf '\n       Installing SREC VIDEO CONFERENCE app with the following arguments:'
+printf '\n       Building SREC VIDEO CONFERENCE app docker image with the following arguments:'
 printf '\n'
 printf '\n          App container tag:  trendchaser4u/srec-video-conf:%s'  "${RELEASE_VERSION}"
 printf '\n          Branch to build:  %s'  "${BRANCH_NAME}"
