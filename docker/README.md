@@ -1,10 +1,3 @@
-## OpenVidu Call docker deployment
-
-OpenVidu bases its deployment on Docker **since 2.13.0 version**.
-
-**NOTE: docker can be use with OpenVidu Call since 2.14.0 version and above.**
-
-
 ### Build OpenVidu Call container
 
 You have several options to build it:

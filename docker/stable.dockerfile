@@ -1,18 +1,18 @@
 FROM node:lts-alpine3.12
 
-ARG RELEASE_VERSION=2.15.0
+ARG RELEASE_VERSION=1.0.0
 
 RUN apk add wget unzip
 
-WORKDIR /opt/openvidu-call
+WORKDIR /opt/srec-video-conf
 
-# Install openvidu-call
-RUN wget "https://github.com/OpenVidu/openvidu-call/releases/download/v${RELEASE_VERSION}/openvidu-call-${RELEASE_VERSION}.tar.gz" -O openvidu-call.tar.gz && \
-    tar zxf openvidu-call.tar.gz  && \
-    rm openvidu-call.tar.gz
+# Install srec-video-conf
+RUN wget "https://github.com/trendchaser4u/srec-video-conf/releases/download/v${RELEASE_VERSION}/srec-video-conf-${RELEASE_VERSION}.tar.gz" -O srec-video-conf.tar.gz && \
+    tar zxf srec-video-conf.tar.gz  && \
+    rm srec-video-conf.tar.gz
 
 # Entrypoint
-COPY ./entrypoint.sh /usr/local/bin
+COPY docker/entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/entrypoint.sh && \
     npm install -g nodemon
 

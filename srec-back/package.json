@@ -48,7 +48,8 @@
         "url": "git+https://github.com/OpenVidu/openvidu-call.git"
     },
     "scripts": {
-        "build": "webpack",
+        "build": "webpack --config webpack.dev.config.js",
+        "build-prod": "webpack",
         "start": "cross-env CALL_OPENVIDU_CERTTYPE=selfsigned nodemon src/app.ts",
         "test": "jest"
     },

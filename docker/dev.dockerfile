@@ -16,9 +16,9 @@ RUN wget "https://github.com/OpenVidu/openvidu/archive/master.zip" -O openvidu-b
     npm pack openvidu-browser/ && \
     rm -rf openvidu-browser
 
-FROM node:lts-alpine3.11 as openvidu-call-build
+FROM node:lts-alpine3.11 as srec-video-conf-build
 
-WORKDIR /openvidu-call
+WORKDIR /srec-video-conf
 
 ARG BRANCH_NAME=master
 ARG BASE_HREF=/
@@ -27,34 +27,35 @@ COPY --from=openvidu-browser-build /openvidu-browser/openvidu-browser-*.tgz .
 
 RUN apk add wget unzip
 
-# Download openvidu-call from specific branch (master by default), intall openvidu-browser and build for production
-RUN wget "https://github.com/OpenVidu/openvidu-call/archive/${BRANCH_NAME}.zip" -O openvidu-call.zip && \
-    unzip openvidu-call.zip && \
-    rm openvidu-call.zip && \
-    mv openvidu-call-${BRANCH_NAME}/openvidu-call-front/ . && \
-    mv openvidu-call-${BRANCH_NAME}/openvidu-call-back/ . && \
-    rm openvidu-call-front/package-lock.json && \
-    rm openvidu-call-back/package-lock.json && \
-    rm -rf openvidu-call-${BRANCH_NAME} && \
-    # Install openvidu-browser in openvidu-call and build it for production
-    npm i --prefix openvidu-call-front openvidu-browser-*.tgz && \
-    npm i --prefix openvidu-call-front && \
-    npm run build-prod ${BASE_HREF} --prefix openvidu-call-front && \
-    rm -rf openvidu-call-front && \
-    # Install openvidu-call-back dependencies and build it for production
-    npm i --prefix openvidu-call-back && \
-    npm run build --prefix openvidu-call-back && \
-    mv openvidu-call-back/dist . && \
-    rm -rf openvidu-call-back
+# Download srec-video-conf from specific branch (master by default), intall openvidu-browser and build for production
+RUN wget "https://github.com/trendchaser4u/srec-video-conf/archive/${BRANCH_NAME}.zip" -O srec-video-conf.zip && \
+    unzip srec-video-conf.zip && \
+    rm srec-video-conf.zip && \
+    mv srec-video-conf-${BRANCH_NAME}/srec-front/ . && \
+    mv srec-video-conf-${BRANCH_NAME}/srec-back/ . && \
+    rm srec-front/package-lock.json && \
+    rm srec-back/package-lock.json && \
+    rm -rf srec-video-conf-${BRANCH_NAME} && \
+    # Install openvidu-browser in srec-video-conf
+    npm i --prefix srec-front openvidu-browser-*.tgz && \
+    # Install srec-front dependencies and build it for production
+    npm i --prefix srec-front && \
+    npm run build-prod ${BASE_HREF} --prefix srec-front && \
+    rm -rf srec-front && \
+    # Install srec-back dependencies and build it for production
+    npm i --prefix srec-back && \
+    npm run build --prefix srec-back && \
+    mv srec-back/dist . && \
+    rm -rf srec-back
 
 
 FROM node:lts-alpine3.11
 
-WORKDIR /opt/openvidu-call
+WORKDIR /opt/srec-video-conf
 
-COPY --from=openvidu-call-build /openvidu-call/dist .
+COPY --from=srec-video-conf-build /srec-video-conf/dist .
 # Entrypoint
-COPY ./entrypoint.sh /usr/local/bin
+COPY docker/entrypoint.sh /usr/local/bin
 RUN apk add curl && \
     chmod +x /usr/local/bin/entrypoint.sh && \
     npm install -g nodemon
