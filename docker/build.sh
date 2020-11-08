@@ -31,16 +31,16 @@ printf '\n'
 
 if [ "$ENVIRONMENT" = "local" ]; then
     RELEASE_VERSION="$1-local"
-    docker build -f docker/local.dockerfile -t trendchaser4u/srec-video-conf:${RELEASE_VERSION} --build-arg BASE_HREF=${CALL_BASE_HREF} .
+    docker build --no-cache -f docker/local.dockerfile -t trendchaser4u/srec-video-conf:${RELEASE_VERSION} --build-arg BASE_HREF=${CALL_BASE_HREF} .
 elif [ "$ENVIRONMENT" = "dev" ]; then
     RELEASE_VERSION="$1-dev"
-    docker build -f docker/dev.dockerfile -t trendchaser4u/srec-video-conf:${RELEASE_VERSION} --build-arg BRANCH_NAME=${BRANCH_NAME} --build-arg BASE_HREF=${CALL_BASE_HREF} .
+    docker build --no-cache -f docker/dev.dockerfile -t trendchaser4u/srec-video-conf:${RELEASE_VERSION} --build-arg BRANCH_NAME=${BRANCH_NAME} --build-arg BASE_HREF=${CALL_BASE_HREF} .
 elif [ "$ENVIRONMENT" = "prod" ]; then
     RELEASE_VERSION=$1
-    docker build -f docker/prod.dockerfile -t trendchaser4u/srec-video-conf:${RELEASE_VERSION} --build-arg BRANCH_NAME=${BRANCH_NAME} --build-arg BASE_HREF=${CALL_BASE_HREF} .
+    docker build --no-cache -f docker/prod.dockerfile -t trendchaser4u/srec-video-conf:${RELEASE_VERSION} --build-arg BRANCH_NAME=${BRANCH_NAME} --build-arg BASE_HREF=${CALL_BASE_HREF} .
 elif [ "$ENVIRONMENT" = "stable" ]; then
     RELEASE_VERSION="$1-stable"
-    docker build -f docker/stable.dockerfile -t trendchaser4u/srec-video-conf:${RELEASE_VERSION} .
+    docker build --no-cache -f docker/stable.dockerfile -t trendchaser4u/srec-video-conf:${RELEASE_VERSION} .
 else
     echo "ERR: not a valid environment. Environment must be one of local, dev, prod, stable."
 fi
