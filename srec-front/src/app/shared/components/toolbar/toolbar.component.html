@@ -35,8 +35,13 @@
 				<mat-icon *ngIf="!isWebcamVideoEnabled" color="warn" matTooltip="Unmute your cam">videocam_off</mat-icon>
 			</button>
 
+			<!-- Fullscreen button -->
+			<button mat-icon-button (click)="toggleFullscreen()" [disabled]="isConnectionLost" *ngIf="ovSettings | hasFullscreen">
+				<mat-icon matTooltip="Fullscreen">{{ fullscreenIcon }}</mat-icon>
+			</button>
+
 			<!-- Screenshare button -->
-			<button
+			<!-- <button
 				id="navScreenButton"
 				mat-icon-button
 				(click)="toggleScreenShare()"
@@ -45,15 +50,20 @@
 			>
 				<mat-icon *ngIf="!isScreenShareEnabled" matTooltip="Screen share" color="warn">stop_screen_share</mat-icon>
 				<mat-icon *ngIf="isScreenShareEnabled" matTooltip="Stop sharing">screen_share</mat-icon>
-			</button>
-
-			<!-- Fullscreen button -->
-			<button mat-icon-button (click)="toggleFullscreen()" [disabled]="isConnectionLost" *ngIf="ovSettings | hasFullscreen">
-				<mat-icon matTooltip="Fullscreen">{{ fullscreenIcon }}</mat-icon>
+			</button> -->
+			<button
+				id="navScreenButton"
+				mat-icon-button
+				(click)="toggleScreenShare()"
+				disabled="disabled"
+				*ngIf="ovSettings | hasScreenSharing"
+			>
+				<mat-icon *ngIf="!isScreenShareEnabled" matTooltip="WIP for Phase II" color="warn">stop_screen_share</mat-icon>
+				<mat-icon *ngIf="isScreenShareEnabled" matTooltip="WIP for Phase II">screen_share</mat-icon>
 			</button>
 
 			<!-- Automatic / grid layout button -->
-			<button
+			<!-- <button
 				mat-icon-button
 				(click)="toggleSpeakerLayout()"
 				[disabled]="isConnectionLost"
@@ -61,6 +71,15 @@
 			>
 				<mat-icon matTooltip="Enable speaker layout" color="warn" *ngIf="!isAutoLayout">voice_over_off</mat-icon>
 				<mat-icon matTooltip="Disable speaker layout" *ngIf="isAutoLayout">record_voice_over</mat-icon>
+			</button> -->
+			<button
+				mat-icon-button
+				(click)="toggleSpeakerLayout()"
+				disabled="disabled"
+				*ngIf="ovSettings | hasLayoutSpeaking"
+			>
+				<mat-icon matTooltip="WIP for Phase II" color="warn" *ngIf="!isAutoLayout">voice_over_off</mat-icon>
+				<mat-icon matTooltip="WIP for Phase II" *ngIf="isAutoLayout">record_voice_over</mat-icon>
 			</button>
 
 			<!-- Leave seassion button -->
