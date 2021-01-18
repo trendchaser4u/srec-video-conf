@@ -41,6 +41,14 @@ export class HasScreenSharingPipe implements PipeTransform {
 	}
 }
 
+@Pipe({ name: 'hasRecording', pure: true })
+export class HasRecordingPipe implements PipeTransform {
+	constructor() {}
+	transform(ovSettings: OvSettingsModel): boolean {
+		return !ovSettings || ovSettings.hasRecording();
+	}
+}
+
 @Pipe({ name: 'hasFullscreen', pure: true })
 export class HasFullscreenPipe implements PipeTransform {
 	constructor() {}

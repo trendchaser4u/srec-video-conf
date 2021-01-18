@@ -16,6 +16,7 @@ export class OvSettingsModel {
 				fullscreen: true,
 				screenShare: true,
 				layoutSpeaking: true,
+				recording: true,
 				exit: true
 			}
 		};
@@ -35,6 +36,10 @@ export class OvSettingsModel {
 
 	public hasScreenSharing(): boolean {
 		return this.ovSettings.toolbarButtons.screenShare;
+	}
+
+	public hasRecording(): boolean {
+		return this.ovSettings.toolbarButtons.recording;
 	}
 
 	public hasLayoutSpeaking(): boolean {

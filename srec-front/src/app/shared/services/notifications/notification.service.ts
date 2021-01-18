@@ -14,6 +14,13 @@ export class NotificationService {
 		  });
 	}
 
+	recordingNotify(message: string, callback){
+		const alert = this.launchNotification(message, 'CLOSE', 'messageSnackbar', 5000);
+		alert.onAction().subscribe(() => {
+			callback();
+		  });
+	}
+
 	private launchNotification(message: string, action: string, className: string, durationTimeMs: number): MatSnackBarRef<SimpleSnackBar> {
 		return this.snackBar.open(message, action, {
 			duration: durationTimeMs,

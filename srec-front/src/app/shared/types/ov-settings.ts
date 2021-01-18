@@ -9,6 +9,7 @@ export interface OvSettings {
 		screenShare: boolean;
 		fullscreen: boolean;
 		layoutSpeaking: boolean;
+		recording: boolean;
 		exit: boolean;
 	};
 }

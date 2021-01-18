@@ -30,6 +30,26 @@ app.post('/', async (req: Request, res: Response) => {
 	}
 });
 
+app.post('/recording/start', async (req: Request, res: Response) => {
+	let sessionId: string = req.body.sessionId;
+	try {
+		const response = await openviduService.startRecording(sessionId, OPENVIDU_URL, OPENVIDU_SECRET);
+		res.status(200).send(JSON.stringify(response));
+	} catch (error) {
+		handleError(error, res);
+	}
+});
+
+app.post('/recording/stop', async (req: Request, res: Response) => {
+	let recordingId: string = req.body.recordingId;
+	try {
+		const response = await openviduService.stopRecording(recordingId, OPENVIDU_URL, OPENVIDU_SECRET);
+		res.status(200).send(JSON.stringify(response));
+	} catch (error) {
+		handleError(error, res);
+	}
+});
+
 function handleError(error: any, res: Response){
 	const statusCode = error.response?.status;
 	console.log(error);

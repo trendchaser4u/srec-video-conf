@@ -34,6 +34,7 @@ import {
 	HasVideoPipe,
 	IsAutoPublishPipe,
 	HasScreenSharingPipe,
+	HasRecordingPipe,
 	HasFullscreenPipe,
 	HasLayoutSpeakingPipe,
 	HasExitPipe,
@@ -68,6 +69,7 @@ import { NotificationService } from './shared/services/notifications/notificatio
 import { StorageService } from './shared/services/storage/storage.service';
 import { CdkOverlayContainer } from './shared/config/custom-cdk-overlay-container';
 import { LocalUsersService } from './shared/services/local-users/local-users.service';
+import { RecordingService } from './shared/services/recording/recording.service';
 
 @NgModule({
 	declarations: [
@@ -88,6 +90,7 @@ import { LocalUsersService } from './shared/services/local-users/local-users.ser
 		HasVideoPipe,
 		IsAutoPublishPipe,
 		HasScreenSharingPipe,
+		HasRecordingPipe,
 		HasFullscreenPipe,
 		HasLayoutSpeakingPipe,
 		HasExitPipe,
@@ -132,6 +135,7 @@ import { LocalUsersService } from './shared/services/local-users/local-users.ser
 		DevicesService,
 		LoggerService,
 		ChatService,
+		RecordingService,
 		NotificationService,
 		StorageService,
 		CdkOverlayContainer,

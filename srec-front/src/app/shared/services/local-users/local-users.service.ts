@@ -16,7 +16,7 @@ export class LocalUsersService {
 	webcamVideoActive: Observable<boolean>;
 	private _OVUsers = <BehaviorSubject<UserModel[]>>new BehaviorSubject([]);
 	private _screenShareState = <BehaviorSubject<boolean>>new BehaviorSubject(false);
-  private _webcamVideoActive = <BehaviorSubject<boolean>>new BehaviorSubject(true);
+	private _webcamVideoActive = <BehaviorSubject<boolean>>new BehaviorSubject(true);
 	private webcamUser: UserModel = null;
 	private screenUser: UserModel = null;
 	private log: ILogger;

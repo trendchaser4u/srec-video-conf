@@ -6,6 +6,7 @@ import { ChatService } from '../../services/chat/chat.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { TokenService } from '../../services/token/token.service';
 import { LocalUsersService } from '../../services/local-users/local-users.service';
+import { RecordingService } from '../../services/recording/recording.service';
 
 @Component({
 	selector: 'app-toolbar',
@@ -28,12 +29,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 	@Output() screenShareClicked = new EventEmitter<any>();
 	@Output() layoutButtonClicked = new EventEmitter<any>();
 	@Output() leaveSessionButtonClicked = new EventEmitter<any>();
+	@Output() recordingButtonClicked = new EventEmitter<any>();
 
 	mySessionId: string;
 
 	newMessagesNum: number;
 	isScreenShareEnabled: boolean;
 	isWebcamVideoEnabled: boolean;
+	isRecordingEnabled: boolean;
 
 	fullscreenIcon = VideoFullscreenIcon.BIG;
 	logoUrl = 'assets/images/boobalan_w.png';
@@ -43,12 +46,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 	private chatServiceSubscription: Subscription;
 	private screenShareStateSubscription: Subscription;
 	private webcamVideoStateSubscription: Subscription;
+	private recordingStateSubscription: Subscription;
 
 	constructor(
 		private utilsSrv: UtilsService,
 		private chatService: ChatService,
 		private tokenService: TokenService,
-		private localUsersService: LocalUsersService
+		private localUsersService: LocalUsersService,
+		private recService: RecordingService
 	) {}
 
 	ngOnDestroy(): void {
@@ -60,6 +65,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 		}
 		if (this.webcamVideoStateSubscription) {
 			this.webcamVideoStateSubscription.unsubscribe();
+		}
+		if (this.recordingStateSubscription) {
+			this.recordingStateSubscription.unsubscribe();
 		}
 	}
 
@@ -88,6 +96,11 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 		this.webcamVideoStateSubscription = this.localUsersService.webcamVideoActive.subscribe((enabled) => {
 			this.isWebcamVideoEnabled = enabled;
 		});
+
+		this.recordingStateSubscription = this.recService.recordingState.subscribe((enabled) => {
+			this.isRecordingEnabled = enabled;
+		});
+
 		if (this.lightTheme) {
 			this.logoUrl = 'assets/images/boobalan_g.png';
 		}
@@ -120,5 +133,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 	toggleFullscreen() {
 		this.utilsSrv.toggleFullscreen('videoRoomNavBar');
 		this.fullscreenIcon = this.fullscreenIcon === VideoFullscreenIcon.BIG ? VideoFullscreenIcon.NORMAL : VideoFullscreenIcon.BIG;
+	}
+
+	toggleRecording(){
+		this.recordingButtonClicked.emit();
 	}
 }

@@ -34,6 +34,7 @@ import { OpenViduLayoutService } from '../shared/services/layout/layout.service'
 import { TokenService } from '../shared/services/token/token.service';
 import { LocalUsersService } from '../shared/services/local-users/local-users.service';
 import { OpenViduWebrtcService } from '../shared/services/openvidu-webrtc/openvidu-webrtc.service';
+import { RecordingService } from '../shared/services/recording/recording.service';
 
 @Component({
 	selector: 'app-video-room',
@@ -74,6 +75,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 	private remoteUsersSubscription: Subscription;
 	private chatSubscription: Subscription;
 	private remoteUserNameSubscription: Subscription;
+	private recordingStateSubscription: Subscription;
+	isRecordingEnabled: boolean;
 
 	constructor(
 		private router: Router,
@@ -86,7 +89,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		private chatService: ChatService,
 		private storageSrv: StorageService,
 		private oVLayout: OpenViduLayoutService,
-		private tokenService: TokenService
+		private tokenService: TokenService,
+		private recService: RecordingService
 	) {
 		this.log = this.loggerSrv.get('VideoRoomComponent');
 	}
@@ -109,6 +113,9 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		this.lightTheme = this.externalConfig?.getTheme() === Theme.LIGHT;
 		this.ovSettings = !!this.externalConfig ? this.externalConfig.getOvSettings() : new OvSettingsModel();
 		this.ovSettings.setScreenSharing(this.ovSettings.hasScreenSharing() && !this.utilsSrv.isMobile());
+		this.recordingStateSubscription = this.recService.recordingState.subscribe((enabled) => {
+			this.isRecordingEnabled = enabled;
+		});
 	}
 
 	ngOnDestroy() {
@@ -133,6 +140,9 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		}
 		if (this.remoteUserNameSubscription) {
 			this.remoteUserNameSubscription.unsubscribe();
+		}
+		if (this.recordingStateSubscription) {
+			this.recordingStateSubscription.unsubscribe();
 		}
 	}
 
@@ -163,6 +173,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		this.subscribeToNicknameChanged();
 		this.chatService.setChatComponent(this.chatSidenav);
 		this.chatService.subscribeToChat();
+		this.recService.subscribeToRecording();
 		this.subscribeToChatComponent();
 		this.subscribeToReconnection();
 		await this.connectToSession();
@@ -268,6 +279,14 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		this.openViduWebRTCService.publishWebcamAudio(hasAudio);
 		this.localUsersService.enableWebcamUser();
 		this.removeScreen();
+	}
+
+	async toggleRecording(){
+		if(this.isRecordingEnabled){
+			this.recService.disableRecording();
+		}else{
+			this.recService.enableRecording();
+		}
 	}
 
 	toggleSpeakerLayout() {

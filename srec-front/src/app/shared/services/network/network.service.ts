@@ -85,4 +85,28 @@ export class NetworkService {
 				});
 		});
 	}
+
+	async startRecording(sessionId: string): Promise<any> {
+		try {
+			this.log.d('init start recording from backend');
+			return await this.http.post<any>(this.baseHref + 'call/recording/start', { sessionId }).toPromise();
+		} catch (error) {
+			if (error.status === 404) {
+				throw { status: error.status, message: 'Cannot connect with backend. ' + error.url + ' not found' };
+			}
+			throw error;
+		}
+	}
+
+	async stopRecording(recordingId: string): Promise<any> {
+		try {
+			this.log.d('init stop recording from backend');
+			return await this.http.post<any>(this.baseHref + 'call/recording/stop', { recordingId }).toPromise();
+		} catch (error) {
+			if (error.status === 404) {
+				throw { status: error.status, message: 'Cannot connect with backend. ' + error.url + ' not found' };
+			}
+			throw error;
+		}
+	}
 }
