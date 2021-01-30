@@ -28,6 +28,29 @@ export class HttpClientService {
 		} catch (error) {
 			throw error;
 		}
+	}
+	
+	public async get(query: string, openviduUrl: string, openviduSecret: string): Promise<any> {
+
+		if(CALL_OPENVIDU_CERTTYPE === 'selfsigned'){
+			this.options.httpsAgent = new https.Agent({
+				rejectUnauthorized: false
+			});
+		}
+
+		this.options.headers = {
+			Authorization: 'Basic ' + btoa('OPENVIDUAPP:' + openviduSecret),
+			'Content-Type': 'application/json',
+		};
+
+		this.options.params = query;
+
+		try {
+			const response = await axios.get<any>(openviduUrl, this.options);
+			return response.data;
+		} catch (error) {
+			throw error;
+		}
     }
 
 }

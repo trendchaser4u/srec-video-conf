@@ -50,6 +50,16 @@ app.post('/recording/stop', async (req: Request, res: Response) => {
 	}
 });
 
+app.get('/recording/show', async (req: Request, res: Response) => {
+	let recordingId: string = req.body?.recordingId;
+	try {
+		const response = await openviduService.showRecording(recordingId, OPENVIDU_URL, OPENVIDU_SECRET);
+		res.status(200).send(JSON.stringify(response));
+	} catch (error) {
+		handleError(error, res);
+	}
+});
+
 function handleError(error: any, res: Response){
 	const statusCode = error.response?.status;
 	console.log(error);

@@ -45,4 +45,15 @@ export class OpenViduService {
 			throw error;
 		}
     }
+
+    public async showRecording(recordingId: string, openviduUrl: string, openviduSecret: string ): Promise<any> {
+		const url = openviduUrl + '/api/recordings';
+        console.log("show recording");
+        const query: string = JSON.stringify({});
+        try{
+            return await this.httpClientService.get(query, url, openviduSecret);
+        }catch (error) {
+			throw error;
+		}
+    }
 }

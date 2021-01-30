@@ -1,17 +1,22 @@
 
 import * as express from 'express';
 import { SERVER_PORT, OPENVIDU_URL, OPENVIDU_SECRET, CALL_OPENVIDU_CERTTYPE } from './config';
-import {app as callController} from './controllers/CallController';
+import { app as callController } from './controllers/CallController';
 import * as dotenv from 'dotenv';
+var timeout = require('connect-timeout');
 
 dotenv.config();
 const app = express();
-
-
+app.use(timeout('30s'))
+app.use(haltOnTimedout);
 app.use(express.static('public'));
 app.use(express.json());
 
 app.use('/call', callController);
+
+function haltOnTimedout(req, res, next) {
+    if (!req.timedout) next()
+}
 
 app.listen(SERVER_PORT, () => {
     console.log("---------------------------------------------------------");

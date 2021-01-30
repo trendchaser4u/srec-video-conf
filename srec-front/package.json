@@ -72,5 +72,5 @@
         "lint": "ng lint",
         "test": "ng test openvidu-call --watch=false --code-coverage"
     },
-    "version": "1.0.2"
+    "version": "1.0.3"
 }
