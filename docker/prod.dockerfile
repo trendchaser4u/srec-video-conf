@@ -14,6 +14,7 @@ RUN wget "https://github.com/trendchaser4u/srec-video-conf/archive/${BRANCH_NAME
     rm srec-video-conf.zip && \
     mv srec-video-conf-${BRANCH_NAME}/srec-front/ . && \
     mv srec-video-conf-${BRANCH_NAME}/srec-back/ . && \
+    mv srec-video-conf-${BRANCH_NAME}/docker/ . && \
     rm srec-front/package-lock.json && \
     rm srec-back/package-lock.json && \
     rm -rf srec-video-conf-${BRANCH_NAME} && \
@@ -34,7 +35,7 @@ WORKDIR /opt/srec-video-conf
 
 COPY --from=srec-video-conf-build /srec-video-conf/dist .
 # Entrypoint
-COPY docker/entrypoint.sh /usr/local/bin
+COPY --from=srec-video-conf-build /srec-video-conf/docker/entrypoint.sh /usr/local/bin
 RUN apk add curl && \
     chmod +x /usr/local/bin/entrypoint.sh && \
     npm install -g nodemon
